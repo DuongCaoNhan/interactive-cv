@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duong Cao Nhan - Interactive Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin: 0 auto; height: 350px; max-height: 400px; }
+        .timeline-line { position: absolute; left: 50%; transform: translateX(-50%); height: 100%; width: 2px; background-color: #cbd5e1; z-index: 0; }
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; }
+        .typing-cursor::after { content: '|'; animation: blink 1s step-start infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .timeline-line { left: 20px; }
+            .timeline-item { flex-direction: column !important; align-items: flex-start !important; padding-left: 50px !important; }
+            .timeline-dot { left: 11px !important; }
+            .chart-container { height: 300px; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-slate-800 tracking-tight">DCN<span class="text-blue-600">.AI</span></span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#dashboard" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Dashboard</a>
+                    <a href="#experience" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Experience</a>
+                    <a href="#ai-lab" class="hidden sm:block px-4 py-2 bg-blue-600 text-white rounded-full text-xs font-bold hover:bg-blue-700 transition">Try AI Agent</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 text-white pt-20 pb-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
+                Duong Cao Nhan
+            </h1>
+            <p class="text-xl md:text-2xl text-blue-200 mb-8 font-light">
+                <span id="typing-text" class="typing-cursor"></span>
+            </p>
+            <p class="max-w-2xl mx-auto text-slate-300 mb-10 text-lg leading-relaxed">
+                6+ years building scalable ERP systems, now evolving into an <strong>Azure AI Specialist</strong>. 
+                I bridge the gap between robust .NET Microservices and cutting-edge Agentic Workflows.
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#dashboard" class="px-8 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition shadow-lg">View Analytics</a>
+                <a href="#contact" class="px-8 py-3 border border-white/30 bg-white/10 text-white rounded-lg font-semibold hover:bg-white/20 transition backdrop-blur-sm">Contact Me</a>
+            </div>
+        </div>
+        <!-- Decorative bg elements (CSS only) -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-20">
+            <div class="absolute top-10 left-10 w-64 h-64 bg-blue-500 rounded-full blur-3xl mix-blend-multiply"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-indigo-500 rounded-full blur-3xl mix-blend-multiply"></div>
+        </div>
+    </header>
+
+    <!-- Analytics Dashboard -->
+    <section id="dashboard" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900">Career Analytics</h2>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-4 mb-6"></div>
+                <p class="max-w-3xl mx-auto text-slate-600">
+                    This dashboard visualizes my professional journey. The <strong>Team Size Evolution</strong> demonstrates my capability to operate in large-scale enterprise environments, while the <strong>Skill Radar</strong> highlights my dual proficiency in traditional Backend Engineering and modern AI implementation.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Chart 1: Project Scale -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Project Scale & Responsibility</h3>
+                    <p class="text-xs text-slate-500 mb-6">Team size across different career stages.</p>
+                    <div class="chart-container">
+                        <canvas id="teamSizeChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Skill Distribution -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Technical Proficiency Profile</h3>
+                    <p class="text-xs text-slate-500 mb-6">Balance between Core Engineering and AI Specialization.</p>
+                    <div class="chart-container">
+                        <canvas id="skillRadarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500 text-center">
+                    <div class="text-3xl font-bold text-slate-900">6+</div>
+                    <div class="text-sm text-slate-500 uppercase tracking-wide mt-1">Years Exp.</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-indigo-500 text-center">
+                    <div class="text-3xl font-bold text-slate-900">40%</div>
+                    <div class="text-sm text-slate-500 uppercase tracking-wide mt-1">Perf. Boost (ATZ)</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-teal-500 text-center">
+                    <div class="text-3xl font-bold text-slate-900">6</div>
+                    <div class="text-sm text-slate-500 uppercase tracking-wide mt-1">New AI Certs</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-500 text-center">
+                    <div class="text-3xl font-bold text-slate-900">R&D</div>
+                    <div class="text-sm text-slate-500 uppercase tracking-wide mt-1">Current Focus</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Agent Simulator (The "Wow" Factor) -->
+    <section id="ai-lab" class="py-20 bg-slate-900 text-white overflow-hidden relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="mb-10 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold tracking-wider mb-4 border border-blue-500/30">INTERACTIVE DEMO</span>
+                <h2 class="text-3xl font-bold">Talk to my Resume Agent</h2>
+                <p class="mt-4 text-slate-400">
+                    Experience my <strong>Agentic Workflow</strong> skills firsthand. This interface simulates a Retrieval-Augmented Generation (RAG) system querying my CV data. Ask a question or click a suggested prompt.
+                </p>
+            </div>
+
+            <div class="glass-panel bg-slate-800/50 rounded-2xl border-slate-700 p-1 flex flex-col h-[500px] shadow-2xl">
+                <!-- Chat Window -->
+                <div id="chat-window" class="flex-1 overflow-y-auto p-6 space-y-4 scroll-smooth">
+                    <!-- Initial Bot Message -->
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0 text-xs font-bold">AI</div>
+                        <div class="bg-slate-700/80 p-4 rounded-2xl rounded-tl-none max-w-[80%] text-sm leading-relaxed border border-slate-600">
+                            Hello! I am an AI Agent specialized in Duong Cao Nhan's profile. I can tell you about his transition from .NET to Azure AI, his project experience, or his tech stack. What would you like to know?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-4 bg-slate-800 border-t border-slate-700 rounded-b-xl">
+                    <!-- Suggestions -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button onclick="sendPrompt('Tell me about your AI experience')" class="px-3 py-1 bg-slate-700 hover:bg-blue-600 text-xs rounded-full transition border border-slate-600 text-slate-300 hover:text-white">AI Experience</button>
+                        <button onclick="sendPrompt('What is your tech stack?')" class="px-3 py-1 bg-slate-700 hover:bg-blue-600 text-xs rounded-full transition border border-slate-600 text-slate-300 hover:text-white">Tech Stack</button>
+                        <button onclick="sendPrompt('Describe the FPT project')" class="px-3 py-1 bg-slate-700 hover:bg-blue-600 text-xs rounded-full transition border border-slate-600 text-slate-300 hover:text-white">FPT Project</button>
+                        <button onclick="sendPrompt('Do you know Multi-Agent systems?')" class="px-3 py-1 bg-slate-700 hover:bg-blue-600 text-xs rounded-full transition border border-slate-600 text-slate-300 hover:text-white">Multi-Agent Systems</button>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <input type="text" id="user-input" placeholder="Ask about Nhan's skills..." class="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-white placeholder-slate-500" onkeypress="handleKeyPress(event)">
+                        <button onclick="handleSend()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition text-sm flex items-center">
+                            <span>Send</span>
+                            <span class="ml-2 text-lg">&uarr;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section id="experience" class="py-20 bg-slate-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900">Professional Journey</h2>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-4 mb-6"></div>
+                <p class="max-w-2xl mx-auto text-slate-600">
+                    A timeline of consistent growth, from developing foundational Japanese ERP systems to leading R&D for AI integration in enterprise environments.
+                </p>
+            </div>
+
+            <div class="relative py-10">
+                <!-- Vertical Line -->
+                <div class="timeline-line"></div>
+
+                <!-- Job 1: FPT -->
+                <div class="relative z-10 mb-16 timeline-item flex flex-row items-center justify-between w-full group">
+                    <div class="order-1 w-5/12 text-right pr-8 md:pr-12 hidden md:block">
+                        <h3 class="text-xl font-bold text-slate-800">FPT Software</h3>
+                        <p class="text-blue-600 font-medium mb-2">May 2023 - Present</p>
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded border border-blue-200">Current Role</span>
+                    </div>
+                    
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-blue-600 rounded-full border-4 border-white shadow-md timeline-dot group-hover:scale-125 transition duration-300"></div>
+                    
+                    <div class="order-1 w-full md:w-5/12 md:pl-12">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition duration-300">
+                            <div class="md:hidden mb-4">
+                                <h3 class="text-xl font-bold text-slate-800">FPT Software</h3>
+                                <p class="text-blue-600 font-medium">May 2023 - Present</p>
+                            </div>
+                            <h4 class="font-bold text-slate-800 mb-2">Senior Software Engineer</h4>
+                            <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                                Architecting core microservices for large-scale Construction ERP. Leading R&D initiatives to integrate <strong>Generative AI</strong> and <strong>Agentic Workflows</strong> into business processes.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">.NET 6</span>
+                                <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded border border-blue-100 font-semibold">Azure AI Foundry</span>
+                                <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded border border-blue-100 font-semibold">Semantic Kernel</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">Redis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job 2: ATZ -->
+                <div class="relative z-10 mb-16 timeline-item flex flex-row-reverse items-center justify-between w-full group">
+                    <div class="order-1 w-5/12 text-left pl-12 hidden md:block">
+                        <h3 class="text-xl font-bold text-slate-800">ATZ Software Solution</h3>
+                        <p class="text-slate-500 font-medium mb-2">Apr 2021 - May 2023</p>
+                    </div>
+                    
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-slate-400 rounded-full border-4 border-white shadow-md timeline-dot group-hover:bg-blue-400 transition duration-300"></div>
+                    
+                    <div class="order-1 w-full md:w-5/12 md:pr-12">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition duration-300">
+                            <div class="md:hidden mb-4">
+                                <h3 class="text-xl font-bold text-slate-800">ATZ Software Solution</h3>
+                                <p class="text-slate-500 font-medium">Apr 2021 - May 2023</p>
+                            </div>
+                            <h4 class="font-bold text-slate-800 mb-2">Software Engineer</h4>
+                            <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                                Developed core modules for Property Management ERP. Optimized complex SQL queries, reducing report loading time by <strong>40%</strong>. Mentored junior developers.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">.NET 4.8</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">SQL Server 2022</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">Performance Tuning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job 3: Fujinet -->
+                <div class="relative z-10 mb-16 timeline-item flex flex-row items-center justify-between w-full group">
+                    <div class="order-1 w-5/12 text-right pr-12 hidden md:block">
+                        <h3 class="text-xl font-bold text-slate-800">Fujinet Systems</h3>
+                        <p class="text-slate-500 font-medium mb-2">Oct 2019 - Apr 2021</p>
+                    </div>
+                    
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-slate-300 rounded-full border-4 border-white shadow-md timeline-dot group-hover:bg-blue-300 transition duration-300"></div>
+                    
+                    <div class="order-1 w-full md:w-5/12 md:pl-12">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition duration-300">
+                            <div class="md:hidden mb-4">
+                                <h3 class="text-xl font-bold text-slate-800">Fujinet Systems</h3>
+                                <p class="text-slate-500 font-medium">Oct 2019 - Apr 2021</p>
+                            </div>
+                            <h4 class="font-bold text-slate-800 mb-2">Software Engineer</h4>
+                            <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                                Contributed to Japanese Construction ERP (PROCES.S5/S6). Handled detailed design, implementation (VB.NET, ASP.NET), and strict unit testing protocols.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">VB.NET</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">WinForms</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">Dapper</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills & Certifications -->
+    <section id="skills" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900">Expertise & Validation</h2>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-4 mb-6"></div>
+                <p class="max-w-2xl mx-auto text-slate-600">
+                    A comprehensive toolset backed by 2025 certifications from Microsoft and LinkedIn.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                
+                <!-- Skills Columns -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Cloud & AI -->
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Cloud & AI Engineering
+                        </h3>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Azure AI Foundry</div>
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Semantic Kernel</div>
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Microsoft Agent Framework</div>
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">RAG</div>
+                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">Azure Functions</div>
+                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">OpenAI Integration</div>
+                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">Docker</div>
+                        </div>
+                    </div>
+
+                    <!-- Backend & Core -->
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <span class="w-2 h-2 bg-slate-500 rounded-full mr-2"></span>Backend & Core
+                        </h3>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">C# / .NET 6/8</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Microservices</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">EF Core</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">SQL Server</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Dapper</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Redis</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications Column -->
+                <div class="lg:col-span-1">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 h-full">
+                        <h3 class="text-lg font-bold text-slate-800 mb-6">2025 Certifications</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 text-lg">✓</span>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-800">Azure AI Essentials Pro Cert</p>
+                                    <p class="text-xs text-slate-500">Microsoft & LinkedIn</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 text-lg">✓</span>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-800">Microsoft Agent Framework</p>
+                                    <p class="text-xs text-slate-500">Microsoft Learn Badge</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 text-lg">✓</span>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-800">Multi-Agent Solution</p>
+                                    <p class="text-xs text-slate-500">Orchestration Badge</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 text-lg">✓</span>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-800">Azure AI Foundry</p>
+                                    <p class="text-xs text-slate-500">LinkedIn Skill Assessment</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl font-bold text-white mb-6">Let's Build Intelligent Systems</h2>
+            <p class="mb-8 max-w-xl mx-auto">
+                Ready to bring 6 years of engineering excellence and cutting-edge AI integration to your team.
+            </p>
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="mailto:nhan9495@gmail.com" class="hover:text-blue-400 transition flex items-center gap-2">
+                    <span class="text-xl">✉</span> nhan9495@gmail.com
+                </a>
+                <a href="tel:0797008024" class="hover:text-blue-400 transition flex items-center gap-2">
+                    <span class="text-xl">📱</span> 079 700 8024
+                </a>
+                <a href="https://linkedin.com/in/duongcaonhan" target="_blank" class="hover:text-blue-400 transition flex items-center gap-2">
+                    <span class="text-xl">🔗</span> LinkedIn
+                </a>
+            </div>
+            <p class="text-sm text-slate-600">
+                &copy; 2025 Duong Cao Nhan. Generated from CV Source.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. Typing Effect Logic ---
+        const titles = ["Senior Software Engineer", ".NET Specialist", "Azure AI Engineer", "Agentic Workflow Architect"];
+        let titleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function typeWriter() {
+            const currentTitle = titles[titleIndex];
+            const typingElement = document.getElementById("typing-text");
+            
+            if (isDeleting) {
+                typingElement.textContent = currentTitle.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentTitle.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentTitle.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                titleIndex = (titleIndex + 1) % titles.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeWriter, typeSpeed);
+        }
+        document.addEventListener('DOMContentLoaded', typeWriter);
+
+        // --- 2. Chart.js Implementations ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart 1: Team Size (Project Scale)
+            const ctxTeam = document.getElementById('teamSizeChart').getContext('2d');
+            new Chart(ctxTeam, {
+                type: 'bar',
+                data: {
+                    labels: ['Fujinet (Construction)', 'ATZ (Armada)', 'FPT (Construction ERP)', 'FPT (AI R&D)'],
+                    datasets: [{
+                        label: 'Team Size',
+                        data: [10, 7, 48, 5],
+                        backgroundColor: [
+                            'rgba(148, 163, 184, 0.7)', // Slate
+                            'rgba(148, 163, 184, 0.7)',
+                            'rgba(59, 130, 246, 0.8)',  // Blue (Peak)
+                            'rgba(16, 185, 129, 0.8)'   // Emerald (Specialized)
+                        ],
+                        borderColor: 'transparent',
+                        borderRadius: 6,
+                        barThickness: 40
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const role = context.dataIndex === 3 ? "Specialized AI Squad" : "Enterprise Team";
+                                    return `Size: ${context.raw} members (${role})`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, title: {display: true, text: 'Members'} },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Chart 2: Skill Radar
+            const ctxRadar = document.getElementById('skillRadarChart').getContext('2d');
+            new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['Backend (.NET)', 'Cloud (Azure)', 'AI/LLM/Agents', 'Frontend (React)', 'Database (SQL)', 'DevOps'],
+                    datasets: [{
+                        label: 'Proficiency Level',
+                        data: [95, 85, 80, 70, 90, 75],
+                        fill: true,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        pointBackgroundColor: 'rgb(59, 130, 246)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(59, 130, 246)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#e2e8f0' },
+                            suggestedMin: 50,
+                            suggestedMax: 100,
+                            ticks: { display: false } // Hide numbers for cleaner look
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        // --- 3. AI Agent Logic (Mock RAG) ---
+        const knowledgeBase = [
+            {
+                keywords: ['ai', 'artificial', 'intelligence', 'agent', 'rag', 'foundry'],
+                response: "My AI expertise is centered on <strong>Azure AI Foundry</strong> and the <strong>Microsoft Agent Framework</strong>. At FPT, I am currently leading R&D to build Multi-Agent solutions that automate complex workflows. I also have deep experience with Semantic Kernel and Retrieval-Augmented Generation (RAG) for enterprise document search."
+            },
+            {
+                keywords: ['stack', 'tech', 'technologies', 'language', 'c#', '.net'],
+                response: "My core stack is <strong>.NET 6/8</strong> and <strong>C#</strong>. On the cloud side, I use Azure extensively (Service Bus, Functions, SQL, Redis). For AI, I leverage Azure OpenAI and Python. On the frontend, I work with ReactJS and Blazor."
+            },
+            {
+                keywords: ['experience', 'work', 'job', 'history', 'career'],
+                response: "I have <strong>6+ years of experience</strong>. Currently, I'm a Senior SE at FPT Software working on Construction ERP and AI R&D. Previously, I optimized systems at ATZ Software (improving performance by 40%) and built Japanese market solutions at Fujinet."
+            },
+            {
+                keywords: ['project', 'fpt', 'construction', 'erp'],
+                response: "At FPT, I work on a massive <strong>Real Estate & Construction ERP</strong> with a team of 48. I architected core microservices using .NET 6 and Azure Service Bus. I'm also leading a specialized 5-person R&D squad for AI integration."
+            },
+            {
+                keywords: ['contact', 'email', 'phone', 'hire'],
+                response: "You can reach me at <strong>nhan9495@gmail.com</strong> or call <strong>079 700 8024</strong>. I am based in Ho Chi Minh City."
+            }
+        ];
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') handleSend();
+        }
+
+        function sendPrompt(text) {
+            document.getElementById('user-input').value = text;
+            handleSend();
+        }
+
+        function handleSend() {
+            const inputEl = document.getElementById('user-input');
+            const chatWindow = document.getElementById('chat-window');
+            const userText = inputEl.value.trim();
+
+            if (!userText) return;
+
+            // Add User Message
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = "flex items-center justify-end space-x-3 animate-fade-in-up";
+            userMsgDiv.innerHTML = `
+                <div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[80%] text-sm">
+                    ${userText}
+                </div>
+                <div class="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 text-xs font-bold text-white">You</div>
+            `;
+            chatWindow.appendChild(userMsgDiv);
+            
+            // Clear input
+            inputEl.value = '';
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // Simulate "Thinking" delay
+            setTimeout(() => {
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = "flex items-start space-x-3 animate-fade-in-up";
+                
+                // Logic to find best response
+                const lowerText = userText.toLowerCase();
+                let bestResponse = "I'm focusing on my .NET and Azure AI skills right now. Could you ask specifically about my technical experience, AI projects, or certifications?";
+                
+                for (const item of knowledgeBase) {
+                    if (item.keywords.some(k => lowerText.includes(k))) {
+                        bestResponse = item.response;
+                        break;
+                    }
+                }
+
+                botMsgDiv.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0 text-xs font-bold text-white">AI</div>
+                    <div class="bg-slate-700/80 p-4 rounded-2xl rounded-tl-none max-w-[80%] text-sm leading-relaxed border border-slate-600 text-slate-200">
+                        ${bestResponse}
+                    </div>
+                `;
+                chatWindow.appendChild(botMsgDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
