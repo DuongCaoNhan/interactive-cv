@@ -296,13 +296,23 @@
                 <p class="text-slate-600 text-sm mb-4 leading-relaxed">
                     A self-built platform where <strong>AI agents run alongside business microservices</strong> under one .NET Aspire runtime, designed end to end: architecture, backend, frontend, infrastructure and CI.
                 </p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 text-center"><div class="text-xl font-bold text-slate-900">74</div><div class="text-xs text-slate-500">Projects</div></div>
+                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 text-center"><div class="text-xl font-bold text-slate-900">4</div><div class="text-xs text-slate-500">Swappable infra providers</div></div>
+                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 text-center"><div class="text-xl font-bold text-slate-900">81</div><div class="text-xs text-slate-500">Design decision records</div></div>
+                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 text-center"><div class="text-xl font-bold text-slate-900">~310</div><div class="text-xs text-slate-500">Architecture gates in CI</div></div>
+                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 text-center"><div class="text-xl font-bold text-slate-900">30</div><div class="text-xs text-slate-500">Unit-test projects</div></div>
+                    <div class="bg-slate-50 rounded-lg border border-slate-200 p-3 text-center"><div class="text-xl font-bold text-slate-900">5+</div><div class="text-xs text-slate-500">LLM providers, one interface</div></div>
+                </div>
+                <h4 class="font-bold text-slate-800 mb-3">Key design decisions</h4>
                 <ul class="text-slate-600 text-sm mb-5 space-y-2 list-disc pl-5">
-                    <li>Multi-agent workflows (sequential, parallel, group chat, handoff) on <strong>Microsoft Agent Framework</strong>, exposed through <strong>MCP</strong> servers and the <strong>A2A</strong> protocol.</li>
-                    <li>A shared <strong>Microsoft.Extensions.AI</strong> pipeline with guardrails: PII redaction, token budgets, rate limits, per-run cost caps and human approval for high-risk tools.</li>
-                    <li>RAG with Qdrant hybrid search, and swappable model providers (Azure OpenAI, OpenAI, Ollama, ONNX Runtime local inference).</li>
-                    <li>Microservices with Clean Architecture, DDD and CQRS; MassTransit outbox and sagas over RabbitMQ; YARP gateway; Keycloak OIDC.</li>
-                    <li>Infrastructure that swaps between Azure, AWS, GCP and on-premise by configuration (Bicep, Terraform, Docker), with full OpenTelemetry, Prometheus and Grafana observability.</li>
-                    <li>Quality gates in GitHub Actions: ~310 architecture rules, 30 unit-test projects, integration and Playwright E2E tests, secret and CVE scanning; 80+ documented architecture decisions.</li>
+                    <li><strong>AI policy is middleware, not app code.</strong> Every LLM call passes a mandatory <strong>Microsoft.Extensions.AI</strong> pipeline: PII redaction, token budgets, rate limits, logging and human approval for high-risk tools. Agents can only be built through it, and a missing approver blocks requests instead of letting them through.</li>
+                    <li><strong>Tools reach agents through one protocol: MCP.</strong> Agents discover tools at runtime from a shared registry, which refreshes automatically when an MCP server restarts.</li>
+                    <li><strong>Agents call each other over A2A.</strong> Multi-agent workflows on Microsoft Agent Framework discover peers by AgentCard, so adding an agent means registering a URL, not editing a workflow.</li>
+                    <li><strong>Architecture rules are executable.</strong> ~310 rules run in GitHub Actions alongside build, frontend and security jobs (secret and CVE scanning), and each gate must prove it actually scanned something.</li>
+                    <li><strong>Architecture fits each service.</strong> Domain-rich services get Clean Architecture, DDD, CQRS and a transactional outbox; I/O-bound pipelines stay deliberately lighter.</li>
+                    <li><strong>Security fails closed.</strong> Keycloak end to end, service-to-service client credentials, an outbound URL guard against internal and metadata addresses, and RFC 9457 error responses that never leak exception details.</li>
+                    <li><strong>One setting switches clouds.</strong> .NET Aspire runs the fleet on Azure, AWS, GCP or on-premise, with OpenTelemetry, Prometheus and Grafana wired into every service.</li>
                 </ul>
                 <div class="flex flex-wrap gap-2">
                     <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded border border-blue-100 font-semibold">Agent Framework</span>
@@ -625,6 +635,14 @@
 
         // --- 3. AI Agent Logic (Mock RAG) ---
         const knowledgeBase = [
+            {
+                keywords: ['security', 'secure', 'auth', 'keycloak', 'guardrail'],
+                response: "I design security to <strong>fail closed</strong>: an unconfigured control stops the host instead of letting requests through. In my personal R&D platform that means Keycloak sign-in end to end, service-to-service client credentials, an outbound URL guard against internal and cloud-metadata addresses, RFC 9457 error responses that never leak exception details, and human approval before an AI agent runs a high-risk tool."
+            },
+            {
+                keywords: ['architecture', 'design', 'ddd', 'cqrs', 'clean'],
+                response: "I pick architecture per service rather than one template for all: domain-rich services get Clean Architecture, DDD, CQRS and a transactional outbox, while I/O-bound pipelines stay lighter. I also make rules executable: about <strong>310 architecture gates</strong> run in CI, and every design choice is written down (81 decision records in my personal R&D platform)."
+            },
             {
                 keywords: ['personal', 'side project', 'own project', 'r&d project', 'platform'],
                 response: "My main personal R&D project is an <strong>enterprise AI-agent platform</strong> I built end to end: multi-agent workflows on Microsoft Agent Framework, MCP and A2A integration, a guarded Microsoft.Extensions.AI pipeline (PII redaction, token budgets, human approval), RAG with Qdrant, and CQRS microservices on .NET Aspire that deploy to Azure, AWS, GCP or on-premise. It is backed by ~310 architecture rules and a full CI pipeline. Details are shared in interviews."
