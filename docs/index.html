@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duong Cao Nhan - Interactive Portfolio</title>
+    <meta name="description" content="Senior .NET Engineer & Azure AI Engineer with 6+ years building enterprise microservices and agentic AI systems (Microsoft Agent Framework, MCP, RAG). Based in Ho Chi Minh City.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://duongcaonhan.github.io/interactive-cv/">
+    <meta property="og:title" content="Duong Cao Nhan - Senior .NET & Azure AI Engineer">
+    <meta property="og:description" content="6+ years building enterprise .NET microservices, now focused on agentic AI: Microsoft Agent Framework, MCP, RAG, Azure AI Foundry.">
+    <meta name="twitter:card" content="summary">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -21,12 +27,19 @@
             .timeline-dot { left: 11px !important; }
             .chart-container { height: 300px; }
         }
+        /* Print / Save as PDF */
+        @media print {
+            * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none !important; }
+            nav { position: static !important; }
+            section, header { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <nav class="no-print sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
@@ -35,7 +48,8 @@
                 <div class="flex items-center space-x-4">
                     <a href="#dashboard" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Dashboard</a>
                     <a href="#experience" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Experience</a>
-                    <a href="#ai-lab" class="hidden sm:block px-4 py-2 bg-blue-600 text-white rounded-full text-xs font-bold hover:bg-blue-700 transition">Try AI Agent</a>
+                    <a href="#skills" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Skills</a>
+                    <a href="#ai-lab" class="hidden sm:block px-4 py-2 bg-blue-600 text-white rounded-full text-xs font-bold hover:bg-blue-700 transition">Ask My CV</a>
                 </div>
             </div>
         </div>
@@ -54,8 +68,13 @@
                 6+ years building scalable ERP systems, now evolving into an <strong>Azure AI Specialist</strong>. 
                 I bridge the gap between robust .NET Microservices and cutting-edge Agentic Workflows.
             </p>
-            <div class="flex justify-center gap-4">
+            <p class="inline-flex items-center gap-2 mb-10 px-4 py-2 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-200 text-sm">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full"></span>
+                Open to: Senior .NET / AI Engineer roles &middot; Ho Chi Minh City or Remote
+            </p>
+            <div class="no-print flex flex-wrap justify-center gap-4">
                 <a href="#dashboard" class="px-8 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition shadow-lg">View Analytics</a>
+                <button type="button" onclick="window.print()" class="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg">Download CV (PDF)</button>
                 <a href="#contact" class="px-8 py-3 border border-white/30 bg-white/10 text-white rounded-lg font-semibold hover:bg-white/20 transition backdrop-blur-sm">Contact Me</a>
             </div>
         </div>
@@ -108,7 +127,7 @@
                     <div class="text-sm text-slate-500 uppercase tracking-wide mt-1">Perf. Boost (ATZ)</div>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-teal-500 text-center">
-                    <div class="text-3xl font-bold text-slate-900">6</div>
+                    <div class="text-3xl font-bold text-slate-900">4</div>
                     <div class="text-sm text-slate-500 uppercase tracking-wide mt-1">New AI Certs</div>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-500 text-center">
@@ -120,13 +139,13 @@
     </section>
 
     <!-- AI Agent Simulator (The "Wow" Factor) -->
-    <section id="ai-lab" class="py-20 bg-slate-900 text-white overflow-hidden relative">
+    <section id="ai-lab" class="no-print py-20 bg-slate-900 text-white overflow-hidden relative">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="mb-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold tracking-wider mb-4 border border-blue-500/30">INTERACTIVE DEMO</span>
-                <h2 class="text-3xl font-bold">Talk to my Resume Agent</h2>
+                <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold tracking-wider mb-4 border border-blue-500/30">INTERACTIVE FAQ</span>
+                <h2 class="text-3xl font-bold">Ask My CV</h2>
                 <p class="mt-4 text-slate-400">
-                    Experience my <strong>Agentic Workflow</strong> skills firsthand. This interface simulates a Retrieval-Augmented Generation (RAG) system querying my CV data. Ask a question or click a suggested prompt.
+                    A lightweight FAQ that matches keywords in your question against my CV (no LLM behind it). Ask a question or click a suggested prompt.
                 </p>
             </div>
 
@@ -137,7 +156,7 @@
                     <div class="flex items-start space-x-3">
                         <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0 text-xs font-bold">AI</div>
                         <div class="bg-slate-700/80 p-4 rounded-2xl rounded-tl-none max-w-[80%] text-sm leading-relaxed border border-slate-600">
-                            Hello! I am an AI Agent specialized in Duong Cao Nhan's profile. I can tell you about his transition from .NET to Azure AI, his project experience, or his tech stack. What would you like to know?
+                            Hi! I'm a simple FAQ bot for Duong Cao Nhan's CV. I can tell you about his transition from .NET to Azure AI, his project experience, his tech stack, or how to contact him. What would you like to know?
                         </div>
                     </div>
                 </div>
@@ -149,6 +168,7 @@
                         <button onclick="sendPrompt('Tell me about your AI experience')" class="px-3 py-1 bg-slate-700 hover:bg-blue-600 text-xs rounded-full transition border border-slate-600 text-slate-300 hover:text-white">AI Experience</button>
                         <button onclick="sendPrompt('What is your tech stack?')" class="px-3 py-1 bg-slate-700 hover:bg-blue-600 text-xs rounded-full transition border border-slate-600 text-slate-300 hover:text-white">Tech Stack</button>
                         <button onclick="sendPrompt('Describe the FPT project')" class="px-3 py-1 bg-slate-700 hover:bg-blue-600 text-xs rounded-full transition border border-slate-600 text-slate-300 hover:text-white">FPT Project</button>
+                        <button onclick="sendPrompt('Tell me about your personal project')" class="px-3 py-1 bg-slate-700 hover:bg-blue-600 text-xs rounded-full transition border border-slate-600 text-slate-300 hover:text-white">Personal R&D</button>
                         <button onclick="sendPrompt('Do you know Multi-Agent systems?')" class="px-3 py-1 bg-slate-700 hover:bg-blue-600 text-xs rounded-full transition border border-slate-600 text-slate-300 hover:text-white">Multi-Agent Systems</button>
                     </div>
                     
@@ -265,6 +285,34 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Personal R&D Project -->
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-blue-100 border-l-4 border-l-blue-600">
+                <div class="flex flex-wrap items-center gap-3 mb-3">
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded border border-blue-200 font-semibold">Personal R&D Project</span>
+                    <span class="text-slate-500 text-sm">Ongoing</span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Enterprise AI-Agent Platform</h3>
+                <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                    A self-built platform where <strong>AI agents run alongside business microservices</strong> under one .NET Aspire runtime, designed end to end: architecture, backend, frontend, infrastructure and CI.
+                </p>
+                <ul class="text-slate-600 text-sm mb-5 space-y-2 list-disc pl-5">
+                    <li>Multi-agent workflows (sequential, parallel, group chat, handoff) on <strong>Microsoft Agent Framework</strong>, exposed through <strong>MCP</strong> servers and the <strong>A2A</strong> protocol.</li>
+                    <li>A shared <strong>Microsoft.Extensions.AI</strong> pipeline with guardrails: PII redaction, token budgets, rate limits, per-run cost caps and human approval for high-risk tools.</li>
+                    <li>RAG with Qdrant hybrid search, and swappable model providers (Azure OpenAI, OpenAI, Ollama, ONNX Runtime local inference).</li>
+                    <li>Microservices with Clean Architecture, DDD and CQRS; MassTransit outbox and sagas over RabbitMQ; YARP gateway; Keycloak OIDC.</li>
+                    <li>Infrastructure that swaps between Azure, AWS, GCP and on-premise by configuration (Bicep, Terraform, Docker), with full OpenTelemetry, Prometheus and Grafana observability.</li>
+                    <li>Quality gates in GitHub Actions: ~310 architecture rules, 30 unit-test projects, integration and Playwright E2E tests, secret and CVE scanning; 80+ documented architecture decisions.</li>
+                </ul>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded border border-blue-100 font-semibold">Agent Framework</span>
+                    <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded border border-blue-100 font-semibold">MCP / A2A</span>
+                    <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded border border-blue-100 font-semibold">RAG</span>
+                    <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">.NET Aspire</span>
+                    <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">React + TypeScript</span>
+                    <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">Multi-cloud</span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -283,34 +331,107 @@
                 
                 <!-- Skills Columns -->
                 <div class="lg:col-span-2 space-y-8">
-                    <!-- Cloud & AI -->
+                    <!-- AI & Agents -->
                     <div>
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
-                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Cloud & AI Engineering
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>AI & Agent Engineering
                         </h3>
                         <div class="flex flex-wrap gap-3">
-                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Azure AI Foundry</div>
-                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Semantic Kernel</div>
                             <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Microsoft Agent Framework</div>
-                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">RAG</div>
-                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">Azure Functions</div>
-                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">OpenAI Integration</div>
-                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">Docker</div>
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Microsoft.Extensions.AI</div>
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Semantic Kernel</div>
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Azure AI Foundry</div>
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">RAG (Qdrant, Hybrid Search)</div>
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Model Context Protocol (MCP)</div>
+                            <div class="px-4 py-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-100 font-semibold shadow-sm">Multi-Agent Orchestration</div>
+                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">A2A / AG-UI Protocols</div>
+                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">Azure OpenAI</div>
+                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">Local LLMs (Ollama, ONNX Runtime)</div>
+                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">LLM Guardrails & Evaluation</div>
+                            <div class="px-4 py-3 bg-white text-slate-700 rounded-lg border border-slate-200 shadow-sm">Browser Agents (Playwright)</div>
                         </div>
                     </div>
 
-                    <!-- Backend & Core -->
+                    <!-- Backend & Architecture -->
                     <div>
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
-                            <span class="w-2 h-2 bg-slate-500 rounded-full mr-2"></span>Backend & Core
+                            <span class="w-2 h-2 bg-slate-500 rounded-full mr-2"></span>Backend & Architecture
                         </h3>
                         <div class="flex flex-wrap gap-3">
-                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">C# / .NET 6/8</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">C# / .NET 6–11</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">ASP.NET Core</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">.NET Aspire</div>
                             <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Microservices</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Clean Architecture / DDD</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">CQRS / MediatR</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">MassTransit (Outbox, Sagas)</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">gRPC / SignalR</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">YARP Gateway</div>
                             <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">EF Core</div>
-                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">SQL Server</div>
                             <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Dapper</div>
+                        </div>
+                    </div>
+
+                    <!-- Data & Messaging -->
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <span class="w-2 h-2 bg-slate-500 rounded-full mr-2"></span>Data & Messaging
+                        </h3>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">SQL Server</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">PostgreSQL</div>
                             <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Redis</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Qdrant</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">RabbitMQ</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Azure Service Bus</div>
+                        </div>
+                    </div>
+
+                    <!-- Cloud & DevOps -->
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <span class="w-2 h-2 bg-slate-500 rounded-full mr-2"></span>Cloud & DevOps
+                        </h3>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Azure</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">AWS</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Docker / Compose</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Bicep</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Terraform</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">GitHub Actions CI</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Keycloak (OIDC)</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">OpenTelemetry</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Prometheus / Grafana</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Serilog / Seq</div>
+                        </div>
+                    </div>
+
+                    <!-- Frontend -->
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <span class="w-2 h-2 bg-slate-500 rounded-full mr-2"></span>Frontend
+                        </h3>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">React + TypeScript</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Vite</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Tailwind CSS</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Fluent UI</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">TanStack Query</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Blazor</div>
+                        </div>
+                    </div>
+
+                    <!-- Testing & Quality -->
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <span class="w-2 h-2 bg-slate-500 rounded-full mr-2"></span>Testing & Quality
+                        </h3>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">xUnit</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">NSubstitute</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Architecture Tests (NetArchTest)</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Playwright E2E</div>
+                            <div class="px-4 py-2 bg-slate-50 text-slate-700 rounded-lg border border-slate-200 shadow-sm">Vitest</div>
                         </div>
                     </div>
                 </div>
@@ -505,12 +626,16 @@
         // --- 3. AI Agent Logic (Mock RAG) ---
         const knowledgeBase = [
             {
-                keywords: ['ai', 'artificial', 'intelligence', 'agent', 'rag', 'foundry'],
-                response: "My AI expertise is centered on <strong>Azure AI Foundry</strong> and the <strong>Microsoft Agent Framework</strong>. At FPT, I am currently leading R&D to build Multi-Agent solutions that automate complex workflows. I also have deep experience with Semantic Kernel and Retrieval-Augmented Generation (RAG) for enterprise document search."
+                keywords: ['personal', 'side project', 'own project', 'r&d project', 'platform'],
+                response: "My main personal R&D project is an <strong>enterprise AI-agent platform</strong> I built end to end: multi-agent workflows on Microsoft Agent Framework, MCP and A2A integration, a guarded Microsoft.Extensions.AI pipeline (PII redaction, token budgets, human approval), RAG with Qdrant, and CQRS microservices on .NET Aspire that deploy to Azure, AWS, GCP or on-premise. It is backed by ~310 architecture rules and a full CI pipeline. Details are shared in interviews."
             },
             {
-                keywords: ['stack', 'tech', 'technologies', 'language', 'c#', '.net'],
-                response: "My core stack is <strong>.NET 6/8</strong> and <strong>C#</strong>. On the cloud side, I use Azure extensively (Service Bus, Functions, SQL, Redis). For AI, I leverage Azure OpenAI and Python. On the frontend, I work with ReactJS and Blazor."
+                keywords: ['ai', 'artificial', 'intelligence', 'agent', 'rag', 'foundry', 'mcp', 'llm'],
+                response: "My AI expertise is centered on <strong>Azure AI Foundry</strong> and the <strong>Microsoft Agent Framework</strong>. At FPT, I am currently leading R&D to build Multi-Agent solutions that automate complex workflows. I also have deep experience with Semantic Kernel and Retrieval-Augmented Generation (RAG) for enterprise document search. I also build agent systems with <strong>Microsoft.Extensions.AI</strong>, <strong>MCP</strong> servers, A2A, and guardrails (PII redaction, token budgets, human approval)."
+            },
+            {
+                keywords: ['stack', 'tech', 'technologies', 'language', 'c#', '.net', 'aspire', 'docker', 'react'],
+                response: "My core stack is <strong>C# / .NET 6–11</strong> with <strong>.NET Aspire</strong>, building microservices with CQRS and MassTransit (outbox, sagas). On the cloud side, I work with Azure and AWS, using Docker, Terraform and Bicep, plus OpenTelemetry for observability. For AI, I leverage Azure OpenAI, local LLMs and Python. On the frontend, I work with React + TypeScript and Blazor."
             },
             {
                 keywords: ['experience', 'work', 'job', 'history', 'career'],
@@ -564,7 +689,7 @@
                 
                 // Logic to find best response
                 const lowerText = userText.toLowerCase();
-                let bestResponse = "I'm focusing on my .NET and Azure AI skills right now. Could you ask specifically about my technical experience, AI projects, or certifications?";
+                let bestResponse = "I'm a simple FAQ bot, so I only understand a few topics. Try asking about my tech stack, AI experience, projects, work history, or contact info.";
                 
                 for (const item of knowledgeBase) {
                     if (item.keywords.some(k => lowerText.includes(k))) {
