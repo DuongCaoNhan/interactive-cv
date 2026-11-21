@@ -355,6 +355,56 @@
                     <li><strong>A written answer to "what leaves this process?"</strong> One ledger lists every way data leaves a service on the AI side, with its guard and its test, and CI fails when a new path has no entry.</li>
                     <li><strong>Security fails closed.</strong> An unconfigured control stops the service instead of letting requests through; agents get a code-owned set of capabilities and human approval that a database row can tighten but never loosen.</li>
                 </ul>
+                <div id="gov" class="no-print mb-6">
+                    <h4 class="font-bold text-slate-800 mb-1">How one agent run is governed <span class="font-normal text-xs text-slate-500">(interactive: click a step, or let it play)</span></h4>
+                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">Two middleware layers. The agent layer wraps the whole run; the chat-client layer runs on <em>every</em> model round trip, so each tool-calling turn is checked again.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                        <div class="md:col-span-3 space-y-2">
+                            <button type="button" data-step="request" class="gov-step w-full text-left px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-blue-400 transition text-sm"><span class="font-semibold text-slate-800">Agent run starts</span> <span class="text-slate-500">&middot; who is asking rides in the session</span></button>
+                            <div class="rounded-xl border border-dashed border-indigo-300 p-3 space-y-2">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-indigo-600">Agent layer &middot; once per run</p>
+                                <button type="button" data-step="guardrail" class="gov-step w-full text-left px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-blue-400 transition text-sm"><span class="font-semibold text-slate-800">Tenant guardrail</span> <span class="text-slate-500">&middot; compliance + risk score</span></button>
+                                <button type="button" data-step="envelope" class="gov-step w-full text-left px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-blue-400 transition text-sm"><span class="font-semibold text-slate-800">Run envelope</span> <span class="text-slate-500">&middot; one trace span per run</span></button>
+                            </div>
+                            <div class="rounded-xl border border-dashed border-blue-300 p-3 space-y-2">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">Chat-client layer &middot; every model round trip</p>
+                                <button type="button" data-step="pii" class="gov-step w-full text-left px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-blue-400 transition text-sm"><span class="font-semibold text-slate-800">PII redaction</span> <span class="text-slate-500">&middot; before any provider sees it</span></button>
+                                <button type="button" data-step="budget" class="gov-step w-full text-left px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-blue-400 transition text-sm"><span class="font-semibold text-slate-800">Token budget</span> <span class="text-slate-500">&middot; reserve, then settle</span></button>
+                                <button type="button" data-step="rate" class="gov-step w-full text-left px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-blue-400 transition text-sm"><span class="font-semibold text-slate-800">Rate limiter</span> <span class="text-slate-500">&middot; stops runaway loops</span></button>
+                                <button type="button" data-step="log" class="gov-step w-full text-left px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-blue-400 transition text-sm"><span class="font-semibold text-slate-800">Logging</span> <span class="text-slate-500">&middot; innermost, sees redacted text</span></button>
+                            </div>
+                            <button type="button" data-step="model" class="gov-step w-full text-left px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-blue-400 transition text-sm"><span class="font-semibold text-slate-800">Model provider</span> <span class="text-slate-500">&middot; behind one IChatClient seam</span></button>
+                            <div class="rounded-xl border border-dashed border-indigo-300 p-3 space-y-2">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-indigo-600">Agent layer &middot; every tool call</p>
+                                <button type="button" data-step="gate" class="gov-step w-full text-left px-3 py-2 rounded-lg border border-slate-200 bg-white hover:border-blue-400 transition text-sm"><span class="font-semibold text-slate-800">Tool approval gate</span> <span class="text-slate-500">&middot; human in the loop</span></button>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 order-first md:order-last">
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 md:sticky md:top-20">
+                                <p id="gov-when" class="text-xs font-semibold uppercase tracking-wide text-blue-600"></p>
+                                <p id="gov-title" class="font-bold text-slate-800 mt-1"></p>
+                                <p id="gov-desc" class="text-sm text-slate-600 mt-2 leading-relaxed"></p>
+                                <p class="text-xs text-slate-500 mt-4 mb-1">What this step reads or adds</p>
+                                <pre id="gov-state" class="bg-slate-900 text-slate-100 text-xs rounded-lg p-3 whitespace-pre-wrap leading-relaxed"></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 bg-slate-50 border border-slate-200 rounded-xl p-4">
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+                            <p class="font-semibold text-slate-800 text-sm">Token budget, simulated <span class="font-normal text-xs text-slate-500">(made-up numbers)</span></p>
+                            <div class="flex gap-2">
+                                <button type="button" id="bud-send" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition">Send a model call</button>
+                                <button type="button" id="bud-reset" class="px-3 py-1.5 bg-white border border-slate-300 hover:border-slate-400 text-slate-700 text-xs font-semibold rounded-lg transition">Reset day</button>
+                            </div>
+                        </div>
+                        <div class="h-3 bg-slate-200 rounded-full overflow-hidden flex">
+                            <div id="bud-used" class="h-full bg-blue-600 transition-all duration-500" style="width:0%"></div>
+                            <div id="bud-held" class="h-full bg-amber-400 transition-all duration-300" style="width:0%"></div>
+                        </div>
+                        <p id="bud-figures" class="text-xs text-slate-500 mt-2"></p>
+                        <p id="bud-log" class="text-sm text-slate-700 mt-1 min-h-[1.25rem]"></p>
+                    </div>
+                </div>
                 <h4 class="font-bold text-slate-800 mb-3">What building it taught me</h4>
                 <ul class="text-slate-600 text-sm mb-5 space-y-2 list-disc pl-5">
                     <li><strong>Two correct components can make one wrong system.</strong> A route and its auth check disagreed about a path prefix. A smoke test caught it; now a rule keeps the two in one change.</li>
@@ -548,6 +598,124 @@
 
     <!-- Scripts -->
     <script>
+        // Governance walkthrough: each step of one agent run, plus a simulated token budget.
+        (() => {
+            const steps = {
+                request: {
+                    when: 'Caller', title: 'Agent run starts',
+                    desc: "A user asks an agent to do something. The session's StateBag carries who is asking and from where; the middleware below reads it.",
+                    state: 'StateBag\n  UserId         "u-42"\n  TenantId       "tenant-a"\n  Region         "EU"\n  CorrelationId  "c-7f3a"\n\nmessage  "Email the Q3 summary to jane@example.com"'
+                },
+                guardrail: {
+                    when: 'Agent layer · once per run', title: 'Tenant guardrail',
+                    desc: 'Prepends a region-specific compliance instruction and scores the message for risk. Above the threshold it withholds the run and sets EscalationRequired, so no model is ever called.',
+                    state: '+ system  EU compliance instruction\n  risk score below threshold\n  EscalationRequired  (not set)'
+                },
+                envelope: {
+                    when: 'Agent layer · once per run', title: 'Run envelope',
+                    desc: 'Opens one OpenTelemetry span around the whole run, tags every log line with the user and correlation id, and records timing, token usage and outcome.',
+                    state: 'span       agent run  (open)\nlog scope  UserId=u-42  CorrelationId=c-7f3a'
+                },
+                pii: {
+                    when: 'Chat-client layer · every round trip', title: 'PII redaction',
+                    desc: 'Redacts secrets, emails, phone and card numbers from the user text and from tool results before any provider sees them.',
+                    state: 'sent to the provider\n  "Email the Q3 summary to [REDACTED-EMAIL]"'
+                },
+                budget: {
+                    when: 'Chat-client layer · every round trip', title: 'Token budget',
+                    desc: 'Reserves an upper bound (a Tiktoken estimate of the prompt plus the output cap) in a durable daily ledger that every replica shares, then settles at what the call really used. If the budget cannot cover the call, or the ledger cannot be asked, it answers with a refusal and the model is never called.',
+                    state: 'hold    1,180 prompt + 4,096 output cap\nledger  today (UTC), shared by all replicas\n-> admitted; settle at actual usage'
+                },
+                rate: {
+                    when: 'Chat-client layer · every round trip', title: 'Rate limiter',
+                    desc: 'A sliding-window limit per provider stops an agent that loops on tool calls. It is per process today, so replicas do not share it; the budget is the cross-replica guard.',
+                    state: 'window  sliding, per provider\n-> allowed'
+                },
+                log: {
+                    when: 'Chat-client layer · every round trip', title: 'Logging',
+                    desc: 'Innermost on purpose: it logs exactly what goes to the provider, which is the already-redacted text.',
+                    state: 'logged  redacted messages only'
+                },
+                model: {
+                    when: 'Provider seam', title: 'Model provider',
+                    desc: 'Only one IChatClient seam may talk to a provider; local and cloud models sit behind it. The model answers, or asks to call a tool.',
+                    state: 'response  tool call\n  send_email(to, subject, body)'
+                },
+                gate: {
+                    when: 'Agent layer · every tool call', title: 'Tool approval gate',
+                    desc: "Low-risk tools run straight away. A high-risk tool waits for a human decision with a timeout; denied or timed out, the agent gets a denial instead of the tool's result. The audit keeps argument names, never values.",
+                    state: 'send_email is high-risk -> waiting\naudit  tool=send_email  args=[to, subject, body]\n-> approved for this call only'
+                }
+            };
+            const order = Object.keys(steps);
+            const buttons = [...document.querySelectorAll('.gov-step')];
+            const el = (id) => document.getElementById(id);
+            let current = 0;
+
+            const select = (key) => {
+                current = order.indexOf(key);
+                const step = steps[key];
+                el('gov-when').textContent = step.when;
+                el('gov-title').textContent = step.title;
+                el('gov-desc').textContent = step.desc;
+                el('gov-state').textContent = step.state;
+                buttons.forEach((b) => {
+                    const on = b.dataset.step === key;
+                    b.classList.toggle('border-slate-200', !on);
+                    b.classList.toggle('border-blue-500', on);
+                    b.classList.toggle('bg-blue-50', on);
+                    b.classList.toggle('bg-white', !on);
+                    b.style.boxShadow = on ? '0 0 0 1px #3b82f6' : '';
+                    b.setAttribute('aria-pressed', on);
+                });
+            };
+
+            let tour = null;
+            const stopTour = () => { clearInterval(tour); tour = null; };
+            const gov = el('gov');
+            let paused = false;
+            gov.addEventListener('mouseenter', () => { paused = true; });
+            gov.addEventListener('mouseleave', () => { paused = false; });
+            buttons.forEach((b) => b.addEventListener('click', () => { stopTour(); select(b.dataset.step); }));
+            select(order[0]);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                tour = setInterval(() => { if (!paused) select(order[(current + 1) % order.length]); }, 3500);
+            }
+
+            // Simulated budget: hold an upper bound, settle at actual usage, refuse when the day cannot cover the hold.
+            const Budget = 20000, OutputCap = 4096;
+            let used = 0;
+            const fmt = (n) => n.toLocaleString('en-US');
+            const draw = (held) => {
+                el('bud-used').style.width = `${(used / Budget) * 100}%`;
+                el('bud-held').style.width = `${(held / Budget) * 100}%`;
+                el('bud-figures').textContent =
+                    `Used ${fmt(used)} · Held ${fmt(held)} · Left ${fmt(Budget - used - held)} of ${fmt(Budget)} tokens today`;
+            };
+            el('bud-send').addEventListener('click', () => {
+                const prompt = 400 + Math.floor(Math.random() * 800);
+                const hold = prompt + OutputCap;
+                if (Budget - used < hold) {
+                    el('bud-log').textContent =
+                        `Refused before any model call: ${fmt(Budget - used)} left cannot cover a hold of ${fmt(hold)}.`;
+                    return;
+                }
+                const send = el('bud-send');
+                send.disabled = true;
+                draw(hold);
+                el('bud-log').textContent = `Holding ${fmt(hold)} (${fmt(prompt)} prompt + ${fmt(OutputCap)} output cap)…`;
+                setTimeout(() => {
+                    const actual = prompt + 150 + Math.floor(Math.random() * 900);
+                    used += actual;
+                    draw(0);
+                    el('bud-log').textContent = `Settled at ${fmt(actual)}; the other ${fmt(hold - actual)} went back to the day.`;
+                    send.disabled = false;
+                }, 700);
+            });
+            el('bud-reset').addEventListener('click', () => { used = 0; draw(0); el('bud-log').textContent = ''; });
+            draw(0);
+        })();
+
         // Screenshot slideshow: click a thumbnail, then arrows, keys or swipe to move between shots.
         (() => {
             const links = [...document.querySelectorAll('#shots a')];
