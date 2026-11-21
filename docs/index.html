@@ -100,7 +100,7 @@
                 <!-- Chart 1: Project Scale -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <h3 class="text-lg font-semibold text-slate-800 mb-2">Project Scale & Responsibility</h3>
-                    <p class="text-xs text-slate-500 mb-6">Team size across different career stages.</p>
+                    <p class="text-xs text-slate-500 mb-6">Team size across different career stages (log scale).</p>
                     <div class="chart-container">
                         <canvas id="teamSizeChart"></canvas>
                     </div>
@@ -215,15 +215,40 @@
                                 <h3 class="text-xl font-bold text-slate-800">FPT Software</h3>
                                 <p class="text-blue-600 font-medium">May 2023 - Present</p>
                             </div>
-                            <h4 class="font-bold text-slate-800 mb-2">Senior Software Engineer</h4>
+                            <h4 class="font-bold text-slate-800">Technical Lead</h4>
+                            <p class="text-xs text-slate-500 mb-2">Aug 2024 - Present &middot; Enterprise approval system (client confidential)</p>
+                            <p class="text-slate-600 text-sm mb-3 leading-relaxed">
+                                Business-critical approval workflows for an enterprise client whose program spans <strong>500+ engineers</strong> (peaking above 900). I lead the <strong>3-person sub-team</strong> that owns this system.
+                            </p>
+                            <ul class="list-disc pl-5 text-slate-600 text-sm mb-4 space-y-1 leading-relaxed">
+                                <li>Hands-on: built a large share of the system's new features myself in .NET Core, alongside the legacy .NET Framework 4.8 codebase.</li>
+                                <li>Know both the business rules and the code, so I support users directly: correcting and restoring approval data safely when an operation was done by mistake.</li>
+                                <li>Designed and built the integration layer and connectors between modern approval workflows and legacy ERP systems (SAP, SAP BTP).</li>
+                                <li>Work directly with stakeholders and end users to resolve data-synchronization and integration bottlenecks.</li>
+                                <li>Own scope, delivery and quality, with weekly progress reports to program management.</li>
+                                <li>Keep the system highly available and resolve incidents within strict SLA windows.</li>
+                                <li>Spot technical risks early and give the team architectural direction.</li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">.NET Core</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">.NET Framework 4.8</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">SQL Server</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">IIS</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">REST/SOAP APIs</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">SAP BTP</span>
+                            </div>
+                            <div class="border-t border-slate-200 pt-4">
+                            <h4 class="font-bold text-slate-800">Senior Software Engineer</h4>
+                            <p class="text-xs text-slate-500 mb-2">May 2023 - Jul 2024 &middot; Real Estate &amp; Construction ERP</p>
                             <p class="text-slate-600 text-sm mb-4 leading-relaxed">
-                                Architecting core microservices for a large-scale Real Estate &amp; Construction ERP in a 48-person team.
+                                Architected core microservices for a large-scale Real Estate &amp; Construction ERP in a 48-person team.
                             </p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">.NET 6</span>
                                 <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">Microservices</span>
                                 <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">Azure Service Bus</span>
                                 <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">Redis</span>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -309,7 +334,7 @@
                 </div>
                 <div class="no-print mb-6">
                     <h4 class="font-bold text-slate-800 mb-3">Screenshots <span class="font-normal text-xs text-slate-500">(development build; names blurred, click to enlarge)</span></h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div id="shots" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <figure><a href="img/dashboard.webp" target="_blank" rel="noopener"><img src="img/dashboard.webp" alt="Control Center dashboard with agent, workflow, approval and evaluation counts" loading="lazy" class="w-full aspect-video object-cover object-left-top rounded-lg border border-slate-200 hover:opacity-90 transition"></a><figcaption class="text-xs text-slate-500 mt-2">Control Center: agents, workflows, pending approvals and eval suites at a glance.</figcaption></figure>
                         <figure><a href="img/playground.webp" target="_blank" rel="noopener"><img src="img/playground.webp" alt="Agent playground showing the model, a tool marked manager approval, and the run's capability posture" loading="lazy" class="w-full aspect-video object-cover object-left-top rounded-lg border border-slate-200 hover:opacity-90 transition"></a><figcaption class="text-xs text-slate-500 mt-2">Playground: each tool shows its approval tier; the run shows its code-owned capabilities.</figcaption></figure>
                         <figure><a href="img/observability.webp" target="_blank" rel="noopener"><img src="img/observability.webp" alt="Observability page with conversations, latency, tokens and cost per agent" loading="lazy" class="w-full aspect-video object-cover object-left-top rounded-lg border border-slate-200 hover:opacity-90 transition"></a><figcaption class="text-xs text-slate-500 mt-2">Observability: tokens, latency and estimated cost per agent.</figcaption></figure>
@@ -516,7 +541,7 @@
             <p class="mb-8 max-w-xl mx-auto">
                 Ready to bring 6 years of engineering excellence and cutting-edge AI integration to your team.
             </p>
-            <div class="flex justify-center space-x-8 mb-8">
+            <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 mb-8">
                 <a href="mailto:nhan9495@gmail.com" class="hover:text-blue-400 transition flex items-center gap-2">
                     <span class="text-xl">✉</span> nhan9495@gmail.com
                 </a>
@@ -533,8 +558,59 @@
         </div>
     </footer>
 
+    <!-- Screenshot slideshow -->
+    <div id="lightbox" class="no-print fixed inset-0 z-[100] hidden flex-col items-center justify-center bg-slate-950/95 p-4 select-none" role="dialog" aria-modal="true" aria-label="Screenshot slideshow">
+        <button id="lb-close" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white text-2xl leading-none" aria-label="Close">&times;</button>
+        <button id="lb-prev" class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white text-2xl" aria-label="Previous">&#8249;</button>
+        <button id="lb-next" class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white text-2xl" aria-label="Next">&#8250;</button>
+        <img id="lb-img" src="" alt="" class="max-w-full max-h-[80vh] rounded-lg shadow-2xl">
+        <p id="lb-caption" class="mt-4 max-w-3xl text-center text-sm text-slate-200"></p>
+        <p id="lb-count" class="mt-1 text-xs text-slate-400"></p>
+    </div>
+
     <!-- Scripts -->
     <script>
+        // Screenshot slideshow: click a thumbnail, then arrows, keys or swipe to move between shots.
+        (() => {
+            const links = [...document.querySelectorAll('#shots a')];
+            const box = document.getElementById('lightbox');
+            const img = document.getElementById('lb-img');
+            const caption = document.getElementById('lb-caption');
+            const count = document.getElementById('lb-count');
+            let index = 0;
+
+            const show = (i) => {
+                index = (i + links.length) % links.length;
+                const link = links[index];
+                img.src = link.href;
+                img.alt = link.querySelector('img').alt;
+                caption.textContent = link.closest('figure').querySelector('figcaption').textContent;
+                count.textContent = `${index + 1} / ${links.length}`;
+            };
+            const open = (i) => { show(i); box.classList.replace('hidden', 'flex'); document.body.style.overflow = 'hidden'; };
+            const close = () => { box.classList.replace('flex', 'hidden'); document.body.style.overflow = ''; };
+
+            links.forEach((link, i) => link.addEventListener('click', (e) => { e.preventDefault(); open(i); }));
+            document.getElementById('lb-prev').addEventListener('click', () => show(index - 1));
+            document.getElementById('lb-next').addEventListener('click', () => show(index + 1));
+            document.getElementById('lb-close').addEventListener('click', close);
+            box.addEventListener('click', (e) => { if (e.target === box) close(); });
+            document.addEventListener('keydown', (e) => {
+                if (box.classList.contains('hidden')) return;
+                if (e.key === 'Escape') close();
+                else if (e.key === 'ArrowLeft') show(index - 1);
+                else if (e.key === 'ArrowRight') show(index + 1);
+            });
+            let startX = null;
+            box.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+            box.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 40) show(index + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+        })();
+
         // --- 1. Typing Effect Logic ---
         const titles = ["Senior Software Engineer", ".NET Specialist", "AI Platform Engineer", "Agentic Workflow Architect"];
         let titleIndex = 0;
@@ -575,14 +651,16 @@
             new Chart(ctxTeam, {
                 type: 'bar',
                 data: {
-                    labels: ['Fujinet (Construction)', 'ATZ (Armada)', 'FPT (Construction ERP)'],
+                    labels: ['Fujinet (Construction)', 'ATZ (Armada)', 'FPT (Construction ERP)', 'FPT (Approval sub-team)', 'FPT (Client program)'],
                     datasets: [{
                         label: 'Team Size',
-                        data: [10, 7, 48],
+                        data: [10, 7, 48, 3, 500],
                         backgroundColor: [
                             'rgba(148, 163, 184, 0.7)', // Slate
                             'rgba(148, 163, 184, 0.7)',
-                            'rgba(59, 130, 246, 0.8)'   // Blue (Peak)
+                            'rgba(148, 163, 184, 0.7)',
+                            'rgba(59, 130, 246, 0.8)',  // Blue (current team I lead)
+                            'rgba(147, 197, 253, 0.8)'  // Light blue (program around it)
                         ],
                         borderColor: 'transparent',
                         borderRadius: 6,
@@ -597,13 +675,15 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
+                                    if (context.dataIndex === 4) return 'Size: 500+ members (peak above 900)';
+                                    if (context.dataIndex === 3) return 'Size: 3 members (I lead)';
                                     return `Size: ${context.raw} members`;
                                 }
                             }
                         }
                     },
                     scales: {
-                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, title: {display: true, text: 'Members'} },
+                        y: { type: 'logarithmic', min: 1, grid: { color: '#f1f5f9' }, title: {display: true, text: 'Members'} },
                         x: { grid: { display: false } }
                     }
                 }
@@ -677,11 +757,11 @@
             },
             {
                 keywords: ['experience', 'work', 'job', 'history', 'career'],
-                response: "I have <strong>6+ years of experience</strong>. Currently, I'm a Senior SE at FPT Software working on Construction ERP. Previously, I optimized systems at ATZ Software (improving performance by 40%) and built Japanese market solutions at Fujinet."
+                response: "I have <strong>6+ years of experience</strong>. Currently, I'm a Technical Lead at FPT Software, leading a 3-person sub-team on an enterprise approval system integrated with SAP, inside a client program of 500+ engineers. Before that I architected microservices for a Construction ERP at FPT. Previously, I optimized systems at ATZ Software (improving performance by 40%) and built Japanese market solutions at Fujinet."
             },
             {
-                keywords: ['project', 'fpt', 'construction', 'erp'],
-                response: "At FPT, I work on a massive <strong>Real Estate & Construction ERP</strong> with a team of 48. I architected core microservices using .NET 6 and Azure Service Bus."
+                keywords: ['project', 'fpt', 'construction', 'erp', 'sap', 'approval', 'lead'],
+                response: "Since Aug 2024 I've been <strong>Technical Lead</strong> of a 3-person sub-team on a business-critical approval system for an enterprise client whose program spans 500+ engineers (peaking above 900). I build much of the new functionality myself in .NET Core, wrote the integration layer to legacy ERP systems (SAP, SAP BTP), know the business rules well enough to fix and restore users' data after a mistaken operation, and own scope, delivery, SLAs and weekly reporting. Before that, I architected core microservices for a <strong>Real Estate & Construction ERP</strong> in a 48-person team, using .NET 6 and Azure Service Bus."
             },
             {
                 keywords: ['contact', 'email', 'phone', 'hire'],
